@@ -1,5 +1,8 @@
 # API key is stored here, not committed
 import secret
+# def api_key():
+# 	return 'keyhere'
+
 # To CURL a URL
 import requests
 
