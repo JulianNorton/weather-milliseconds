@@ -4,23 +4,24 @@ import api_keys # TODO, handle enviromental secrets better. API key is stored he
 import requests
 
 app = Flask(__name__)
-noaa_api_key = noaa_api_key.api_keys
+noaa_api_key = ""
 # TODO learn about flask config
 
 @app.route('/')
 def index():
     url = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/locations?locationcategoryid=CITY&sortfield=name&sortorder=desc'
-    headers = {'token': secret.api_key}
+    headers = {'token': noaa_api_key}
     r = requests.get(url, headers=headers)
     # python string format function
     
     return '''<html>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <head>
         <title>Home Page - Test</title>
     </head>
     <body>
-        <h1>{weather}</h1>
-        <h2>{lightning}
+        <p>{weather}</p>
+        <h2>{lightning}</h2>
     </body>
 </html>'''.format(weather=str(r.json()),lightning='tacos')
 
