@@ -1,4 +1,4 @@
-# python_noaa_weather
+# Experiment to render the weather forecast as fast as possible. Goal is sub 100ms.
 
 ## Set-up
 
