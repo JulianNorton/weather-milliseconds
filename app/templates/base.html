@@ -1,0 +1,17 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} – Weather Presto</title>
+        {% else %}
+        <title>Presto</title>
+        {% endif %}
+    </head>
+    <body>
+        <header>
+            <h1>Weather Presto: <a href="/">Home</a></h1>
+        </header>
+        <section>
+            {% block content %}{% endblock %}
+        </section>
+    </body>
+</html>
