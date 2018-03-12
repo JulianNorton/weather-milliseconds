@@ -12,18 +12,6 @@ with open('sample-forecast.json') as json_data:
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():    
-    return '''<html>
-    <head>
-        <title>Home Page - Test</title>
-    </head>
-    <body>
-        <p>{weather}</p>
-        <p>{test}</p>
-    </body>
-</html>'''.format(weather=str(sample_forecast),test='hello')
-
 
 # This has to be at bottom to run
 if __name__ == '__main__':
