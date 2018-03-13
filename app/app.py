@@ -1,29 +1,11 @@
 from flask import Flask
-import requests # to curl a URL
+import os
 import json # process sample json
-
-# TODO learn about flask config
-
-
-# Import sample json data, #TODO, load dynamically and cache
-with open('sample-forecast.json') as json_data:
-    sample_forecast = json.load(json_data)
 
 
 app = Flask(__name__)
 
-
-# This has to be at bottom to run
 if __name__ == '__main__':
-    app.run()
-
-
-
-
-# notes
-# resp = requests.get('https://www.google.com')
-# if resp.status_code != 200:
-#     # This means something went wrong.
-#     print('something went wrong')
-# else:
-#     print(resp)
+    # Bind to PORT if defined, otherwise default to 5000.
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
