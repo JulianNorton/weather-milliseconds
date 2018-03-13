@@ -1,9 +1,18 @@
 from app import app
 from flask import render_template
 from flask import json
-from flask import jsonify
-# from pprint import pprint
+from flask_caching import Cache
 
+
+# Caching test 
+# Check Configuring Flask-Caching section for more details
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+@app.route('/cached')
+@cache.cached(timeout=60)
+def cached():
+    return '''<html><body><h1>cached</h1></body></html>'''
+
+# --------------
 
 
 
@@ -11,7 +20,6 @@ from flask import jsonify
 def test():
     d = json.load(open('sample-forecast.json'))
     weather_formatted = d['data']['temperature'][0]
-    jsonify
     # weather = {'sample_forecast': 'Always Sunny'}
     # return json.dumps(d)
     # return (weather=weather)
