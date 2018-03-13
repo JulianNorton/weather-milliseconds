@@ -1,4 +1,10 @@
-<html>
+<!DOCTYPE html>
+<style>
+    body {
+        background-color: #dddddd;
+    }
+</style>
+<html lang="en">
     <head>
         {% if title %}
         <title>{{ title }} – Weather Milliseconds</title>
@@ -6,12 +12,12 @@
         <title>Milliseconds</title>
         {% endif %}
     </head>
-    <body>
+    <body id="weather-milliseconds">
         <header>
             <h1>Weather Milliseconds: <a href="/">Home</a></h1>
         </header>
-        <section>
+        <main>
             {% block content %}{% endblock %}
-        </section>
+        </main>
     </body>
 </html>

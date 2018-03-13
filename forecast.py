@@ -2,35 +2,39 @@ from app import app
 from flask import render_template
 from flask import json
 from flask_caching import Cache
+import datetime
+import requests
 
 
-# Caching test 
-# Check Configuring Flask-Caching section for more details
+raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json')
+raw_data = raw_data.json()
+
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
-@app.route('/cached')
-@cache.cached(timeout=60)
-def cached():
-    return '''<html><body><h1>cached</h1></body></html>'''
-
-# --------------
-
-
-
-@app.route('/test')
-def test():
-    d = json.load(open('sample-forecast.json'))
-    weather_formatted = d['data']['temperature'][0]
-    # weather = {'sample_forecast': 'Always Sunny'}
-    # return json.dumps(d)
-    # return (weather=weather)
-    # return render_template('index.html', title='Home', weather=weather, posts=posts)
+timestamp = datetime.datetime.now()
+@cache.cached(timeout=1)
+@app.route('/manhattan')
+def manhattan():
+    # raw_data = json.load(open('sample-forecast.json'))
+    areaDescription = raw_data['location']['areaDescription']
+    creationDateLocal = raw_data['creationDateLocal']
+    forecast_time = raw_data['time']['startPeriodName'][0]
+    forecast_data_weather = raw_data['data']['weather'][0]
+    forecast_data_text = raw_data['data']['text'][0]
     return '''<html>
-    <head>
-        <title>Home Page - Test</title>
-    </head>
     <body>
-        <p>{weather}</p>
-        <p>{test}</p>
+        <h5>Compiled: {timestamp}</h5>
+        <p>{areaDescription} – {creationDateLocal}</p>
+        <h3>{forecast_time} – {forecast_data_weather}</h3>
+        <p>{forecast_data_text}</p>
+        <hr/>
+        <p>{raw_data}</p>
     </body>
-</html>'''.format(weather=weather_formatted, test=d)
+</html>'''.format(
+    timestamp=timestamp,
+    areaDescription=areaDescription,
+    creationDateLocal=creationDateLocal,
+    forecast_time=forecast_time,
+    forecast_data_weather=forecast_data_weather,
+    forecast_data_text=forecast_data_text,
+    raw_data=raw_data)
 
