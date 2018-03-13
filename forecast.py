@@ -9,8 +9,9 @@ import requests
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 timestamp = datetime.datetime.now()
-@cache.cached(timeout=1)
 @app.route('/manhattan')
+# 600 seconds == 10 minutes
+@cache.cached(timeout=600)
 def manhattan():
     raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json').json()
     # raw_data = json.load(open('sample-forecast.json'))
