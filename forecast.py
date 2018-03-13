@@ -6,8 +6,7 @@ import datetime
 import requests
 
 
-raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json')
-raw_data = raw_data.json()
+raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json').json()
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 timestamp = datetime.datetime.now()
