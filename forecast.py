@@ -6,13 +6,13 @@ import datetime
 import requests
 
 
-raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json').json()
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 timestamp = datetime.datetime.now()
 @cache.cached(timeout=1)
 @app.route('/manhattan')
 def manhattan():
+    raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json').json()
     # raw_data = json.load(open('sample-forecast.json'))
     areaDescription = raw_data['location']['areaDescription']
     creationDateLocal = raw_data['creationDateLocal']
