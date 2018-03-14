@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Manhattan weather forecast in under 100ms">
+    <meta property="og:email" content="julian@juliannorton.com">
+    <meta name="robots" content="index, follow">
+    <title>NYC Weather</title>
+    <style>
+        body {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body id="weather-milliseconds">
+    <header>
+        <h1><a href="/">Refresh</a></h1>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

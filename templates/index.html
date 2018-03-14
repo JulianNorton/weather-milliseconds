@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <h5>Compiled: {{timestamp}}</h5>
+    <p>{{areaDescription}} – {{creationDateLocal}}</p>
+    <h3>{{forecast_time}} – {{forecast_data_weather}}</h3>
+    <p>{{forecast_data_text}}</p>
+    <hr/>
+    <h5>Raw data</h5>
+    <p>{{raw_data}}</p>
+</body>
+{% endblock %}
