@@ -1,4 +1,4 @@
-# Experiment to render the weather forecast as fast as possible. Goal is sub 100ms.
+# Experiment to render the weather forecast as fast as possible. ~~Goal is sub 100ms.~~ ~40 milliseconds if you're in NYC.
 
 ## Set-up
 
