@@ -11,9 +11,6 @@ app = Flask(__name__)
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 cache.init_app(app)
 
-
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
-
 @app.route('/')
 @app.route('/index')
 
