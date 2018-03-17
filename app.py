@@ -17,8 +17,8 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 @app.route('/')
 @app.route('/index')
 
-# 600*6 seconds == 30 minutes
-@cache.cached(timeout=600*3)
+# 1800 seconds == 30 minutes
+@cache.cached(timeout=1800)
 def index():
     timestamp = datetime.datetime.now()
     raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json').json()
@@ -28,6 +28,15 @@ def index():
         'creationDateLocal' : raw_data['creationDateLocal'],
         'forecast_time' : raw_data['time']['startPeriodName'][0],
         'forecast_data_weather' : raw_data['data']['weather'][0],
-        'forecast_data_text' : raw_data['data']['text'][0]
+        'forecast_data_text' : raw_data['data']['text'][0],
+        'forecast_time_1' : raw_data['time']['startPeriodName'][1],
+        'forecast_data_weather_1' : raw_data['data']['weather'][1],
+        'forecast_data_text_1' : raw_data['data']['text'][1],
+        'forecast_time_2' : raw_data['time']['startPeriodName'][2],
+        'forecast_data_weather_2' : raw_data['data']['weather'][2],
+        'forecast_data_text_2' : raw_data['data']['text'][2],
+        'forecast_time_3' : raw_data['time']['startPeriodName'][3],
+        'forecast_data_weather_3' : raw_data['data']['weather'][3],
+        'forecast_data_text_3' : raw_data['data']['text'][3]
     }
-    return render_template('index.html',timestamp=timestamp, raw_data=raw_data, **parsed_data)
+    return render_template('index.html',timestamp=timestamp, **parsed_data)
