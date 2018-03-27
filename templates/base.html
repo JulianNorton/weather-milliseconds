@@ -12,7 +12,8 @@
         body {
             background-color: #eeeeee;
             font-size: 18px;
-            font-size: calc(112.5% + 0.5vw);
+            font-size: calc(0.875em + 0.25 * (100vw - 80em) / 40);
+            font-size: -webkit-calc(87.5% + 0.25 * (100vw - 8000%) / 40);
             line-height: 1.25;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
             
@@ -23,6 +24,7 @@
             flex-direction: column;
             justify-content: center;
             margin: 0 auto;
+            padding: 0 .3rem;
         }
         ol {
             list-style-type: none;
