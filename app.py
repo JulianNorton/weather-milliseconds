@@ -34,6 +34,8 @@ def index():
         'forecast_data_text_2' : raw_data['data']['text'][2],
         'forecast_time_3' : raw_data['time']['startPeriodName'][3],
         'forecast_data_weather_3' : raw_data['data']['weather'][3],
-        'forecast_data_text_3' : raw_data['data']['text'][3]
+        'forecast_data_text_3' : raw_data['data']['text'][3],
+        'forecast_data_weather_4' : raw_data['data']['weather'][4],
+        'forecast_data_text_4' : raw_data['data']['text'][4]
     }
     return render_template('index.html',timestamp=timestamp, **parsed_data)
