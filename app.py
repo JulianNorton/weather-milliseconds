@@ -22,7 +22,6 @@ def index():
     # raw_data = json.load(open('sample-forecast.json'))
     parsed_data = {
         'areaDescription' : raw_data['location']['areaDescription'],
-        # 'creationDateLocal' : raw_data['creationDateLocal'],
         'forecast_time' : raw_data['time']['startPeriodName'][0],
         'forecast_data_weather' : raw_data['data']['weather'][0],
         'forecast_data_text' : raw_data['data']['text'][0],
