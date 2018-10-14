@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -7,21 +8,22 @@
     <meta name="description" content="Manhattan weather forecast in under 100ms">
     <meta property="og:email" content="julian@juliannorton.com">
     <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="style.css">
     <title>NYC Weather</title>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-            
+
             if (
-            "IntersectionObserver" in window &&
-            "IntersectionObserverEntry" in window &&
-            "intersectionRatio" in window.IntersectionObserverEntry.prototype
+                "IntersectionObserver" in window &&
+                "IntersectionObserverEntry" in window &&
+                "intersectionRatio" in window.IntersectionObserverEntry.prototype
             ) {
-                let lazyImageObserver = new IntersectionObserver(function(
-                entries,
-                observer
+                let lazyImageObserver = new IntersectionObserver(function (
+                    entries,
+                    observer
                 ) {
-                    entries.forEach(function(entry) {
+                    entries.forEach(function (entry) {
                         if (entry.isIntersecting) {
                             let lazyImage = entry.target;
                             lazyImage.src = lazyImage.dataset.src;
@@ -31,43 +33,20 @@
                         }
                     });
                 });
-                
-                lazyImages.forEach(function(lazyImage) {
+
+                lazyImages.forEach(function (lazyImage) {
                     lazyImageObserver.observe(lazyImage);
                 });
             }
         });
     </script>
-    <style>
-        body {
-            background-color: #eeeeee;
-            font-size: 18px;
-            font-size: calc(1.3em + 0.25 * (100vw - 80em) / 40);
-            font-size: -webkit-calc(130% + 0.25 * (100vw - 8000%) / 40);
-            line-height: 1.25;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-        }
-        .container {
-            max-width: 50em;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin: 0 auto;
-            padding: 0 .3rem;
-        }
-        ol {
-            padding-left: 0;
-            list-style-type: none;
-        }
-        img {
-            max-width: 100%;
-            width: 500px
-        }
-    </style>
+
 </head>
-<body id="weather-milliseconds">
+
+<body class="wrapper" id="weather-milliseconds">
     <main>
         {% block content %}{% endblock %}
     </main>
 </body>
+
 </html>
