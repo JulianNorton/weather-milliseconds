@@ -15,7 +15,7 @@ cache.init_app(app)
 @app.route('/index')
 
 # 1800 seconds == 30 minutes
-@cache.cached(timeout=1800)
+@cache.cached(timeout=300)
 def index():
     timestamp = datetime.datetime.now()
     raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json').json()
