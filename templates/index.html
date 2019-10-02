@@ -3,30 +3,31 @@
 {% block content %}
 <article class="container">
     <header>
-        <h3>Weather for {{areaDescription}}</h3>
+        <h3>
+            <!-- Show name of point only if the areaDescription is available -->
+            Weather {% if areaDescription %} for {{areaDescription}} {% endif %} 
+        </h3>
         <a href="/">Refresh</a>
     </header>
     <section>
         <ol class="olist">
             <li>
-                <img style="min-width: 100%" class="lazy" alt="Radar loop of the northeast United States" width="500" src="https://radar.weather.gov/ridge/Conus/Loop/northeast_loop.gif" data-srcset="https://radar.weather.gov/ridge/Conus/Loop/northeast_loop.gif" async="">
+                <img style="min-width: 100%" 
+                    class="lazy" 
+                    alt="Radar loop of the northeast United States" 
+                    width="500" 
+                    src="https://radar.weather.gov/ridge/Conus/Loop/northeast_loop.gif" 
+                    data-srcset="https://radar.weather.gov/ridge/Conus/Loop/northeast_loop.gif" async="">
             </li>
-            <li>
-                <h3>{{forecast_time}} – {{forecast_data_weather}}</h3>
-                <p>{{forecast_data_text}}</p>
-            </li>
-            <li>
-                <h3>{{forecast_time_1}} – {{forecast_data_weather_1}}</h3>
-                <p>{{forecast_data_text_1}}</p>
-            </li>
-            <li>
-                <h3>{{forecast_time_2}} – {{forecast_data_weather_2}}</h3>
-                <p>{{forecast_data_text_2}}</p>
-            </li>
-            <li>
-                <h3>{{forecast_time_3}} – {{forecast_data_weather_3}}</h3>
-                <p>{{forecast_data_text_3}}</p>
-            </li>
+
+            {% for period in periodic_data %}
+                <li>
+                    
+                    <h3>{{period.name}} – {{period.shortForecast}}  <img class='weather-icon' src={{period.icon}} height="30px" width="30px"> </h3>
+                    <p>{{period.detailedForecast}}</p>
+                </li>
+            {% endfor %}
+
         </ol>
     </section>
     <footer>
@@ -38,4 +39,4 @@
         </dl>
     </footer>
 </article>
-{% endblock %}
+{% endblock content %}
