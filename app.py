@@ -3,6 +3,7 @@ import datetime
 import requests
 from flask import Flask, render_template
 from flask_caching import Cache
+from htmlmin.minify import html_minify
 
 app = Flask(__name__)
 
@@ -77,3 +78,17 @@ def index():
     }
 
     return render_template('index.html', **context)
+
+
+@app.after_request
+def response_minify(response):
+    """
+    minify html response to decrease site traffic
+    """
+    if response.content_type == u'text/html; charset=utf-8':
+        response.set_data(
+            html_minify(response.get_data(as_text=True))
+        )
+
+        return response
+    return response
