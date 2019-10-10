@@ -16,39 +16,10 @@ cache.init_app(app)
 @cache.cached(timeout=300)  # 1800 seconds == 30 minutes
 def index():
 
-    # raw_data = requests.get('https://forecast.weather.gov/MapClick.php?lat=40.74&lon=-74&unit=0&lg=english&FcstType=json').json()
-    # raw_data = json.load(open('sample-forecast.json'))
-
-    # data = raw_data['data']
-    # time_data = raw_data['time']
-
-    # parsed_data = {
-    #     'areaDescription': raw_data['location']['areaDescription'],
-
-    #     'forecast_time': time_data['startPeriodName'][0],
-    #     'forecast_data_weather': data['weather'][0],
-    #     'forecast_data_text': data['text'][0],
-
-    #     'forecast_time_1': time_data['startPeriodName'][1],
-    #     'forecast_data_weather_1': data['weather'][1],
-    #     'forecast_data_text_1': data['text'][1],
-
-    #     'forecast_time_2': time_data['startPeriodName'][2],
-    #     'forecast_data_weather_2': data['weather'][2],
-    #     'forecast_data_text_2': data['text'][2],
-
-    #     'forecast_time_3': time_data['startPeriodName'][3],
-    #     'forecast_data_weather_3': data['weather'][3],
-    #     'forecast_data_text_3': data['text'][3],
-
-    #     'forecast_data_weather_4': data['weather'][4],
-    #     'forecast_data_text_4': data['text'][4]
-    # }
-
     timestamp = datetime.datetime.now()
 
     # latitude and Longitude and  of the area
-    latitude, longitude = 31, 80
+    latitude, longitude = 41, 74
 
     # Fetching area data
     area_data = requests.get(
