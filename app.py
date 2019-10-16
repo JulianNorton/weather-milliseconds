@@ -18,19 +18,10 @@ def index():
 
     timestamp = datetime.datetime.now()
 
-
     # // TODO -- MAKE THIS ACCEPT ANY LAT LONG AS A INPUT
     # latitude and Longitude and  of the area
     # NYC KNYC central park weather station is Lat: 40.78°N Lon: 73.97°W
     # long is not negative here because "TOP" in the request accounts for this.
-    # latitude, longitude = 40.73, -73.97
-
-    # Fetching area data
-    # area_data = requests.get(
-    #    f'https://api.weather.gov/points/40.73,-73.97'
-    # ).json()
-
-    # print(area_data)
 
     # Fetching weather data
     # Hardcoding to the correct weather station
@@ -41,9 +32,22 @@ def index():
     # Period wise data
     periodic_data = weather_data['properties']['periods']
 
+    latitude, longitude = weather_data['geometry']['geometries'][0]['coordinates'][
+        0], weather_data['geometry']['geometries'][0]['coordinates'][1]
+
+    # Fetching area data
+    area_data = requests.get(
+        f'https://api.weather.gov/points/{longitude},{latitude}'
+    ).json()
+
+    print(area_data)
+
+    areaDescription = area_data['properties']['relativeLocation']['properties']['city'] + ', ' + area_data['properties']['relativeLocation']['properties']['state']
+
     context = {
         'timestamp': timestamp,
-        'periodic_data': periodic_data
+        'periodic_data': periodic_data,
+        'areaDescription': areaDescription
     }
 
     return render_template('index.html', **context)
