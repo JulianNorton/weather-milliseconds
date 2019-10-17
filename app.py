@@ -1,7 +1,7 @@
 import datetime
 
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_caching import Cache
 from htmlmin.minify import html_minify
 
@@ -13,7 +13,6 @@ cache.init_app(app)
 
 @app.route('/')
 @app.route('/index')
-@cache.cached(timeout=300)  # 1800 seconds == 30 minutes
 def index():
 
     timestamp = datetime.datetime.now()
@@ -22,27 +21,31 @@ def index():
     # latitude and Longitude and  of the area
     # NYC KNYC central park weather station is Lat: 40.78°N Lon: 73.97°W
     # long is not negative here because "TOP" in the request accounts for this.
+    zip_code = request.args.get('zip_code')
+    lat, lng, default_value = 0, 0, False
+    with open('./assets/data.csv', 'r') as f:
+        for line in f:
+            data = line.split(',')
+            if data[0] == zip_code:
+                lat, lng = data[1], data[2].rstrip('\n')
+                break
 
-    # Fetching weather data
-    # Hardcoding to the correct weather station
+    if lat == 0 and lng == 0:
+        lat, lng, default_value = 40.78, 73.97, True
+
+    area_data = requests.get(
+        f'https://api.weather.gov/points/{lat},{lng}'
+    ).json()
+    
+    cwa, gridX, gridY = area_data['properties']['cwa'], area_data['properties']['gridX'], area_data['properties']['gridY']
+
     weather_data = requests.get(
-        f'https://api.weather.gov/gridpoints/OKX/33,35/forecast'
+        f'https://api.weather.gov/gridpoints/{cwa}/{gridX},{gridY}/forecast'
     ).json()
 
-    # Period wise data
     periodic_data = weather_data['properties']['periods']
 
-    latitude, longitude = weather_data['geometry']['geometries'][0]['coordinates'][
-        0], weather_data['geometry']['geometries'][0]['coordinates'][1]
-
-    # Fetching area data
-    area_data = requests.get(
-        f'https://api.weather.gov/points/{longitude},{latitude}'
-    ).json()
-
-    print(area_data)
-
-    areaDescription = area_data['properties']['relativeLocation']['properties']['city'] + ', ' + area_data['properties']['relativeLocation']['properties']['state']
+    areaDescription = area_data['properties']['relativeLocation']['properties']['city'] + ', ' + area_data['properties']['relativeLocation']['properties']['state'] +['',' (Default value)'][default_value]
 
     context = {
         'timestamp': timestamp,
