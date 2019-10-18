@@ -53,7 +53,7 @@ def index(zip_code=None):
 
         periodic_data = weather_data['properties']['periods']
 
-        areaDescription = area_data['properties']['relativeLocation']['properties']['city'] + ', ' + area_data['properties']['relativeLocation']['properties']['state'] +['',' (Default value)'][default_value]
+        areaDescription = area_data['properties']['relativeLocation']['properties']['city'] + ', ' + area_data['properties']['relativeLocation']['properties']['state'] +['',' (Default)'][default_value]
 
         context = {
             'timestamp': timestamp,
