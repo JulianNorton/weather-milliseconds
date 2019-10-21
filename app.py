@@ -36,7 +36,9 @@ def index(zip_code=None):
 
             if zip_code is None:
                 zip_code, default = 10019, True #New York, Manhattan, Central Park (default)
-
+            
+            # data.csv
+            # https://gist.github.com/abatko/ee7b24db82a6f50cfce02afafa1dfd1e
             with open('./assets/data.csv', 'r') as f:
                 for line in f:
                     data = line.split(',')
