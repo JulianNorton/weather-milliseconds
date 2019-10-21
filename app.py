@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 cache.init_app(app)
 
-@app.rout('/')
+@app.route('/')
 @app.route('/index')
 @app.route('/<zip_code>')
 def index(zip_code=None):
