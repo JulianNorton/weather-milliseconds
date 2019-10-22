@@ -22,7 +22,7 @@ cache.init_app(app)
 @app.route('/<zip_code>')
 def index(zip_code=None):
     
-    if re.search(r'.*(\d{5}(\-\d{4})?)$', zip_code) or re.search(r'^$', zip_code):
+    if re.search(r'.*(\d{5}(\-\d{4})?)$', zip_code):
         if cache.get(CACHE_1_ZIP) is not None and cache.get(CACHE_1_ZIP)['zip_code'] == zip_code:
             return render_template('index.html', **cache.get(CACHE_1_ZIP)['context'])
         elif cache.get(CACHE_2_ZIP) is not None and cache.get(CACHE_2_ZIP)['zip_code'] == zip_code:
@@ -31,23 +31,24 @@ def index(zip_code=None):
             return render_template('index.html', **cache.get(CACHE_3_ZIP)['context'])
         else:
             timestamp = datetime.datetime.now()
-
             lat, lng, default_value = 0, 0, False
-
-            if zip_code is None:
-                zip_code, default = 10019, True #New York, Manhattan, Central Park (default)
             
             # data.csv
             # https://gist.github.com/abatko/ee7b24db82a6f50cfce02afafa1dfd1e
-            with open('./assets/data.csv', 'r') as f:
+            with open('./assets/zipcode-lat-lng.csv', 'r') as f:
                 for line in f:
                     data = line.split(',')
                     if data[0] == zip_code:
                         lat, lng = data[1], data[2].rstrip('\n')
                         break
-
+            
             if lat == 0 and lng == 0:
-                lat, lng, default_value = 40.76, -73.98, True
+                context = {
+                    'error': True,
+                    'title': 'Something went wrong',
+                    'description': 'We couldn\'t find information for the zipcode %s' %zip_code
+                }
+                return render_template('index.html', **context)
 
             area_data = requests.get(
                 f'https://api.weather.gov/points/{lat},{lng}'
@@ -59,7 +60,15 @@ def index(zip_code=None):
                 f'https://api.weather.gov/gridpoints/{cwa}/{gridX},{gridY}/forecast'
             ).json()
 
-            periodic_data = weather_data['properties']['periods']
+            try:
+                periodic_data = weather_data['properties']['periods']
+            except:
+                context = {
+                    'error': True,
+                    'title': weather_data['title'],
+                    'description': weather_data['detail']
+                }
+                return render_template('index.html', **context)
 
             areaDescription = area_data['properties']['relativeLocation']['properties']['city'] + ', ' + area_data['properties']['relativeLocation']['properties']['state'] +['',' (Default)'][default_value]
 
@@ -69,7 +78,7 @@ def index(zip_code=None):
                 'areaDescription': areaDescription
             }
 
-            data = {"zip_code": zip_code, "context": context}
+            data = {'zip_code': zip_code, 'context': context}
 
             def save_data(data):
                 if cache.get(CACHE_1_ZIP) is None:
@@ -85,17 +94,21 @@ def index(zip_code=None):
             save_data(data)
 
             return render_template('index.html', **context)
+    else:
+        
+        40.76, -73.98 #New York, Manhattan, Central Park (default)
+
+
 
 
 @app.after_request
 def response_minify(response):
-    """
+    '''
     minify html response to decrease site traffic
-    """
+    '''
     if response.content_type == u'text/html; charset=utf-8':
         response.set_data(
             html_minify(response.get_data(as_text=True))
         )
-
         return response
     return response
