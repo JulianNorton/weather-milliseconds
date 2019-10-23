@@ -2,6 +2,10 @@
 
 {% block content %}
 <article class="container">
+    {% if error %}
+        <h3>{{title}}</h3>
+        <span>{{description}}</span>
+    {% else %}
     <header>
         <h3>
             <!-- Show name of point only if the areaDescription is available -->
@@ -39,5 +43,6 @@
             <dd>{{timestamp}} (UTC)</dd>
         </dl>
     </footer>
+    {% endif %}
 </article>
 {% endblock content %}
