@@ -55,7 +55,7 @@ def index(zip_code=None):
     
     timestamp = datetime.datetime.now()
 
-    if zip_code != None and re.search(r'.*(\d{5}(\-\d{4})?)$', zip_code):
+    if zip_code != None and re.search(r'.*(\d{5}?)$', zip_code):
         if cache.get(CACHE_1_ZIP) is not None and cache.get(CACHE_1_ZIP)['zip_code'] == zip_code:
             return render_template('index.html', **cache.get(CACHE_1_ZIP)['context'])
         elif cache.get(CACHE_2_ZIP) is not None and cache.get(CACHE_2_ZIP)['zip_code'] == zip_code:
@@ -101,9 +101,17 @@ def index(zip_code=None):
 
             return render_template('index.html', **context)
     else:
-        #If no zip is provided, a default forecast is returned
-        #New York, Manhattan, Central Park (default)
-        return render_template('index.html', **getContext(40.76, -73.98, True, timestamp))
+        if zip_code is None:
+            #If no zip is provided, a default forecast is returned
+            #New York, Manhattan, Central Park (default)
+            return render_template('index.html', **getContext(40.76, -73.98, True, timestamp))
+        else:
+            context = {
+                    'error': True,
+                    'title': 'Something went wrong',
+                    'description': 'The following zipcode %s has an invalid format, it must be a 5 digit number.' %zip_code
+                }
+            return render_template('index.html', **context)
 
 
 
